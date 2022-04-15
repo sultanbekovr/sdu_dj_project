@@ -1,17 +1,17 @@
-
 from base64 import urlsafe_b64decode
 from multiprocessing import context
 from turtle import title
 from django.http import Http404, HttpResponse, HttpResponseNotFound
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import *
-from .forms import CommentForm, EmailPostForm
+from .forms import CommentForm, EmailPostForm, SearchForm
 from django.core.mail import send_mail
-# Create your views here.
+from django.contrib.postgres.search import SearchVector
 
 menu = [{'title': "Home", 'url_name': 'home'},
         {'title': "Catalog", 'url_name': 'catalog'},
         {'title': "About us", 'url_name': 'about'},]
+
 
 def index(request):
     context = {
@@ -20,8 +20,10 @@ def index(request):
     }
     return render(request,'poll/index.html', context=context)
 
+
 def about(request):
     return render(request,'poll/about.html', {'menu': menu,'title': 'About'})
+
 
 def catalog(request):
     posts = Product.objects.all()
@@ -116,7 +118,7 @@ def post_share(request, product_id):
                       f"{product.p_title}"
             message = f"Read {product.p_title} at {post_url}\n\n" \
                       f"{cd['name']}\'s comments: {cd['comments']}"
-            send_mail(subject, message, 'admin@myblog.com',
+            send_mail(subject, message, 'rus.mur2001@gmail.com',
                       [cd['to']])
             sent = True
     else:
@@ -126,7 +128,21 @@ def post_share(request, product_id):
                                                 'sent': sent})
 
 
-
-
+def post_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            results = Product.published.annotate(
+                search=SearchVector('p_title', 'p_description'),
+            ).filter(search=query)
+    return render(request,
+                  'poll/search.html',
+                  {'form': form,
+                   'query': query,
+                   'results': results})
 
 

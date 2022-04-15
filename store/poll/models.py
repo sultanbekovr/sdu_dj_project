@@ -5,27 +5,40 @@ from django.urls import reverse
 # Create your models here.
 
 
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status='published')
+
+
 class Product(models.Model):
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
     p_title = models.CharField(max_length=250, verbose_name='Product Title')
     p_description = models.TextField(blank=True, verbose_name='Product Description')
     p_photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Product photo')
     p_time_create = models.DateTimeField(auto_now_add=True)
     p_time_update = models.DateTimeField(auto_now=True)
-    p_is_published = models.BooleanField(default=True)
     cat = models.ForeignKey('Category', on_delete = models.PROTECT, null=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
+
+    objects = models.Manager()
+    published = PublishedManager()
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail',
-                       args=[self.p_time_create.year,
-                             self.p_time_create.month,
-                             self.p_time_create.day,
-                             self.cat])
+        return reverse('post',
+                       args=[self.p_title])
+
+    # def get_absolute_url(self):
+    #     return reverse('post', kwargs={"post_name": self.p_title})
+
+    class Meta:
+        ordering = ('-p_time_create',)
 
     def __str__(self):
         return self.p_title
-    
-    def get_absolute_url(self):
-        return reverse('post', kwargs={"post_name": self.p_title})
+
     
     
 class Category(models.Model):

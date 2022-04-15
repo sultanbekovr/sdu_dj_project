@@ -33,6 +33,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
 
     path('', include('poll.urls')),
+
     
 ]
 

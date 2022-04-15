@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.postgres',
     'poll.apps.PollConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
@@ -81,8 +82,10 @@ WSGI_APPLICATION = 'store.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'shop',
+        'USER': 'shop',
+        'PASSWORD': '502232',
     }
 }
 
