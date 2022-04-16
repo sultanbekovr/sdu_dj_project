@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+#  jdbjkv
 import os
 from pathlib import Path
 
@@ -87,8 +87,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'shop',
 
-        'USER': 'meru',
-        'PASSWORD': '1710',
+        'USER': 'shop',
+        'PASSWORD': '6789',
 
 
 
