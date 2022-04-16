@@ -54,7 +54,11 @@ urlpatterns = [
 
 
     path('', include('poll.urls')),
+    
+    
 ]
+    
+
 
 
 
