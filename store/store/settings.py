@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'captcha',
+    
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,8 +86,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'shop',
-        'USER': 'shop',
-        'PASSWORD': '6789',
+
+        'USER': 'meru',
+        'PASSWORD': '1710',
+
+
+
     }
 }
 
