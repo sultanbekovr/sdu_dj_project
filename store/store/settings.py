@@ -87,8 +87,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'shop',
 
-        'USER': 'shop',
-        'PASSWORD': '6789',
+        'USER': 'meru',
+        'PASSWORD': '1710',
 
 
 
@@ -164,3 +164,6 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
