@@ -6,3 +6,4 @@ Pillow==9.1.0
 psycopg2-binary==2.9.3
 sqlparse==0.4.2
 captcha==0.4
+django-debug-toolbar==3.2.4
