@@ -1,4 +1,5 @@
 from base64 import urlsafe_b64decode
+from functools import cache
 from multiprocessing import context
 from turtle import title
 from django.http import Http404, HttpResponse, HttpResponseNotFound
@@ -7,6 +8,11 @@ from .models import *
 from .forms import CommentForm, EmailPostForm, SearchForm
 from django.core.mail import send_mail
 from django.contrib.postgres.search import SearchVector
+
+
+# cache
+from django.views.decorators.cache import cache_page
+
 
 menu = [{'title': "Home", 'url_name': 'home'},
         {'title': "Catalog", 'url_name': 'catalog'},
@@ -24,7 +30,7 @@ def index(request):
 def about(request):
     return render(request,'poll/about.html', {'menu': menu,'title': 'About'})
 
-
+@cache_page(60)
 def catalog(request):
     posts = Product.objects.all()
     cats = Category.objects.all()
