@@ -9,6 +9,10 @@
 .media{
 	display: flex;
 }
+.img-article-left thumb{
+  width: 300px;
+  height: 300px;
+}
 .content-section{
 	margin-top: 20px;
 	background: #ffffff;
