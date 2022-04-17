@@ -1,12 +1,12 @@
 from django.urls import path, re_path
-
+from django.views.decorators.cache import cache_page
 from .views import *
 
 # app_name = 'poll'
 urlpatterns = [
     path('', index, name='home'),
     path('about/', about, name='about'),
-    path('catalog/', catalog, name='catalog'),
+    path('catalog/', cache_page(60)(catalog), name='catalog'),
     
     
     
