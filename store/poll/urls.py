@@ -8,7 +8,7 @@ urlpatterns = [
     path('about/', about, name='about'),
     path('catalog/', cache_page(60)(catalog), name='catalog'),
     
-    
+
     
     path('post/<str:post_name>/', show_post, name='post'),
     path('category/<int:cat_id>/', show_category, name='category'),
