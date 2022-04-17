@@ -7,8 +7,8 @@ from .models import *
 from .forms import CommentForm, EmailPostForm, SearchForm
 from django.core.mail import send_mail
 from django.contrib.postgres.search import SearchVector
-
-menu = [{'title': "Home", 'url_name': 'home'},
+# {'title': "Home", 'url_name': 'home'}
+menu = [
         {'title': "Catalog", 'url_name': 'catalog'},
         {'title': "About us", 'url_name': 'about'},]
 
