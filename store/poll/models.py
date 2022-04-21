@@ -1,7 +1,7 @@
 from operator import mod
 from django.db import models
 from django.urls import reverse
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -22,7 +22,8 @@ class Product(models.Model):
     p_time_update = models.DateTimeField(auto_now=True)
     cat = models.ForeignKey('Category', on_delete = models.PROTECT, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
-
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     objects = models.Manager()
     published = PublishedManager()
 
@@ -42,8 +43,10 @@ class Product(models.Model):
     
     
 class Category(models.Model):
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     ct_category_name = models.CharField(max_length=100, db_index=True)
-        
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
         
     def __str__(self):
         return self.ct_category_name
