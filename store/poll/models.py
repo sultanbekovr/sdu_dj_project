@@ -40,7 +40,7 @@ class Product(models.Model):
     def __str__(self):
         return self.p_title
 
-    
+    # dgfhsjak
     
 class Category(models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
