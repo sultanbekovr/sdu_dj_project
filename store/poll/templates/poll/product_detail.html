@@ -1,0 +1,51 @@
+{% extends 'poll/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container d-flex flex-row  mt-3 ">
+        
+        <h1 class="article-title"><p>{{object.p_title}}</p></h1>
+        <p><img src={{ object.p_photo.url }} alt="" width="270px" height="260px"></p>
+        <h1 class="">{{object.p_description}}</h1>
+  </div>
+        {% if object.author == user %}
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'product-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'product-delete' object.id %}">Delete</a>
+        {% endif %}
+  
+    {% comment %} <h2>
+        <p>
+            <a href="{% url 'post_share' product.id %}">
+            Share this post
+            </a>
+        </p>
+    </h2>
+    <h1>Comments</h1>
+    {% for comment in comments %}
+        <div class="comment">
+            <p class="info">
+                Comment {{ forloop.counter }} by {{ comment.name }}
+                {{ comment.created }}
+            </p>
+            {{ comment.body|linebreaks }}
+        </div>
+    {% empty %}
+        <p>There are no comments yet.</p>
+    {% endfor %}
+
+    {% if new_comment %}
+        <h2>Your comment has been added.</h2>
+    {% else %}
+        <h2>Add a new comment</h2>
+        <form method="post">
+            {{ comment_form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="Add comment"></p>
+        </form>
+    {% endif %}
+
+
+{% endcomment %}
+
+{% endblock %} 

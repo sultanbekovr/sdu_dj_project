@@ -1,0 +1,15 @@
+{% for c in cats %}
+{% if c.pk == cat_selected %}
+<li class="list-group-item list-group-item-light">{{c.ct_category_name}}</li>
+{% else %}
+<li class="list-group-item list-group-item-light"> <a href="{{c.get_absolute_url}}"> {{c.ct_category_name}}</a></li>
+{%endif%}
+{% endfor %}
+
+{% for c in cats %}
+	{% if c.pk == cat_selected %}
+		<li class="selected">{{c.name}}</li>
+	{% else %}
+		<li><a href="{{ c.get_absolute_url }}">{{c.name}}</a></li>
+	{% endif %}
+{% endfor %}
