@@ -25,6 +25,15 @@
                         <button type="button" class="btn btn-danger flex-fill ms-1">  <a   href="{% url 'product-delete' object.id %}">Delete</a></button>
                       </div>
                     </div>
+                    {% else %}
+                    <div class="designed-by">
+                      <h5>Author:{{object.author}}</h5>
+                     
+                    </div>
+                        <a href="cart.html" class="btn btn-primary flex-fill me-1" data-mdb-ripple-color="dark">Add to Cart</a>
+                        <a href="" class="btn" style="background-color: #EAEAEF; color: #ADADAD;">Add to Wishlist</a>
+                    {% endif %}
+                        
                     {% endif %}
                   </div>
                 </div>
@@ -39,7 +48,8 @@
           
 
   </div>
-     
+       
+  
     {% comment %} <h2>
         <p>
             <a href="{% url 'post_share' product.id %}">

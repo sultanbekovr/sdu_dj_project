@@ -28,6 +28,8 @@ from users import views as user_views
 urlpatterns = [
    
     path('admin/', admin.site.urls),
+    path('basket/', include('basket.urls', namespace = 'basket')),
+    
     path('captcha/', include('captcha.urls')),
     
     path('register/', user_views.register, name='register'),
