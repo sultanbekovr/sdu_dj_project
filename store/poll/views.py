@@ -51,26 +51,7 @@ class AboutPage(ListView):
 
 
 
-class CatalogView(ListView):
-    paginate_by = 3
-    model = Product
-    template_name = 'poll/catalog.html'
-    context_object_name = 'posts'
-    
-    
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['title'] = 'Catalog'
-        context['cat_selected'] = 0
-        context['posts'] = Product.objects.all()
-        return context
 
-
-    def get_queryset(self):
-        return Product.objects.filter(~Q(status = 'draft'))
-    
-    
 # view for show_post  
 class ProductDetailView(DetailView):
     model = Product    
@@ -261,6 +242,27 @@ class TechCategory(ListView):
         context['menu'] = menu
         context['cat_selected'] = context['posts'][0].cat_id
         return context
+class CatalogView(ListView):
+
+    model = Product
+    template_name = 'poll/allcatalog.html'
+    context_object_name = 'posts'
+    paginate_by = 7
+    
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Catalog'
+        context['cat_selected'] = 0
+      
+        return context
+
+
+    def get_queryset(self):
+        return Product.objects.filter(~Q(status = 'draft'))
+    
+    
     
     
 
