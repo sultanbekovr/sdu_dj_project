@@ -26,6 +26,8 @@ menu = [{'title': "Home", 'url_name': 'home'},
 
 class HomepageView(ListView):
     model = Product
+    context_object_name = 'posts'
+    paginate_by = 4
     template_name = 'poll/index.html'
     extra_context = {'title': 'Home'}
     
