@@ -5,8 +5,10 @@
 
 
 
-<section style="display:flex; justify-content: center">
+<div style="display:flex; justify-content: center; background-color:red; row-gap: 20px; ">
   {% for t in posts %}
+
+<div style="display:flex; justify-content: center; background-color:red; row-gap: 20px; ">
       <div style="padding: 20px;  border: 1px solid black; margin: 20px; box-shadow: 10px 3px 3px lightgrey;" >
         <img src="{{t.p_photo.url}}" alt="" width="250px" height="250px"style="padding: 20px; "  >
         <p class="pt-3" style="font-size: 25px; font-family: 'Inconsolata', monospace;"> <b> {{t.p_title}}</b></p>
@@ -14,7 +16,7 @@
         <a href="{{ t.get_absolute_url }}" id="btn" class="btn btn-outline-dark">More</a>
       </div>
 {% endfor %}
-</section>  
+    </div >  
 
 
 
