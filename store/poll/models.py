@@ -11,13 +11,15 @@ class PublishedManager(models.Manager):
 
 
 class Product(models.Model):
+    
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
-    p_title = models.CharField(max_length=255, verbose_name="Заголовок")
+    p_title = models.CharField(max_length=255, verbose_name="Title")
+    price = models.DecimalField(max_digits=9, decimal_places=2)
     slug = models.SlugField(max_length=255, db_index=True, verbose_name="URL")
-    p_description = models.TextField(blank=True, verbose_name="Текст статьи")
+    p_description = models.TextField(blank=True, verbose_name="Product description")
     p_photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Product photo')
     p_time_create = models.DateTimeField(auto_now_add=True)
     p_time_update = models.DateTimeField(auto_now=True)
@@ -68,8 +70,8 @@ class Comment(models.Model):
     product = models.ForeignKey(Product,
                              on_delete=models.CASCADE,
                              related_name='comments',)
-    name = models.CharField(max_length=80)
-    email = models.EmailField()
+    # name = models.CharField(max_length=80)
+    # email = models.EmailField()
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

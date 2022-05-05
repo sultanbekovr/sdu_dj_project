@@ -20,6 +20,6 @@ admin.site.register(Category,CategoryAdmin)
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'product', 'created', 'active')
+    list_display = ('product', 'created', 'active')
     list_filter = ('active', 'created', 'updated')
     search_fields = ('name', 'email', 'body')

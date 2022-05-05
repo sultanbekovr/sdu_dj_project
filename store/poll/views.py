@@ -1,5 +1,6 @@
 from base64 import urlsafe_b64decode
 from dataclasses import field
+from itertools import product
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -80,7 +81,7 @@ class ProductDetailView(DetailView):
 # create new product 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product    
-    fields = ['p_title', 'p_description', 'cat', 'p_photo']
+    fields = ['p_title','price', 'p_description', 'cat', 'p_photo']
     
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -121,12 +122,25 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     success_url = '/'
-    
+    form = CommentForm
     def test_func(self):
         product = self.get_object()
         if self.request.user == product.author:
             return True
         return False
+    
+    def product(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            product = self.get_object()
+            form.instance.user = request.author
+            form.instance.product = product
+            
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form
+        return context
+             
 
 
 
