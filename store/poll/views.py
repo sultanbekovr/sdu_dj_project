@@ -245,9 +245,9 @@ class TechCategory(ListView):
 class CatalogView(ListView):
 
     model = Product
-    template_name = 'poll/allcatalog.html'
+    template_name = 'poll/catalog.html'
     context_object_name = 'posts'
-    paginate_by = 7
+    paginate_by = 3
     
     
     def get_context_data(self, *, object_list=None, **kwargs):
