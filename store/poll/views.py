@@ -63,6 +63,7 @@ class CatalogView(ListView):
         context['menu'] = menu
         context['title'] = 'Catalog'
         context['cat_selected'] = 0
+        context['posts'] = Product.objects.all()
         return context
 
 
