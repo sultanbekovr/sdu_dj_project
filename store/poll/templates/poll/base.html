@@ -100,25 +100,23 @@
         {% endblock %} 
         <nav class="list-pages">
           <ul>
+            {% if  is_paginated%}
             {% if page_obj.has_previous %}
-            <li class="page-num">
-              <a href="?page={{ page_obj.previous_page_numbers }}">&lt;</a>
-            </li>
+            <a class="btn btn-outline-info mb-4" href="?page=1">FIRST</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_numbers }}">PREV</a>
             {% endif %}
-            {% for p in paginator.page_range %}
+            {% for p in page_obj.paginator.page_range %}
             {% if page_obj.number == p%}
-            <li class="page-num page-num-selected">{{p}}</li>
-            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %} <li
-              class="page-num">
-              <a href="?page={{p}}">{{p}}</a>
-              </li>
-              {% endif %}
-              {% endfor %}
-              {% if page_obj.has_next %}
-              <li class="page-num">
-                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
-              </li>
-              {% endif %}
+            <a class="btn btn-info mb-4" href="?page={{p}}">{{p}}</a>
+            {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+            <a class="btn btn-outline-info mb-4" href="?page={{p}}">{{p}}</a>
+            {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">NEXT</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">LAST</a>
+            {% endif %}
+            {% endif %}
           </ul>
 
         </nav>

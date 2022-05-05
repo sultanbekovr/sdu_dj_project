@@ -215,22 +215,35 @@ class ShowCatsView(ListView):
 #     context_object_name = 'posts'
 #     def get_queryset(self):
 #         return Product.object.filter(cat__slug=self.kwargs['cat_slug'], is_published=True)
-def show_category(request, cat_id):
-    posts = Product.objects.filter(cat_id=cat_id)
+# def show_category(request, cat_id):
+#     posts = Product.objects.filter(cat_id=cat_id)
+#     if len(posts) == 0:
+#         raise Http404()
     
-    
-    if len(posts) == 0:
-        raise Http404()
-    
-    context = {
-        'posts': posts,
+#     context = {
+#         'posts': posts,
         
-        'menu': menu,
-        'title': 'By Categories',
-        'cat_selected': cat_id,
-    }
+#         'menu': menu,
+#         'title': 'By Categories',
+#         'cat_selected': cat_id,
+#     }
     
-    return render(request, 'poll/catalog.html', context=context)
+#     return render(request, 'poll/catalog.html', context=context)
+
+class TechCategory(ListView):
+    model = Product
+    template_name = 'poll/catalog.html'
+    context_object_name = 'posts'
+    paginate_by = 3
+    def get_queryset(self):
+        return Product.objects.filter(cat_id=self.kwargs['cat_id'])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Категория - ' + str(context['posts'][0].cat)
+        context['menu'] = menu
+        context['cat_selected'] = context['posts'][0].cat_id
+        return context
     
     
 
