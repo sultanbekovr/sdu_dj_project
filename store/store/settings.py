@@ -76,6 +76,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # 'poll.context_processors.categories',
+                'basket.context_processors.basket',
             ],
         },
     },
@@ -92,8 +93,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'shop',
 
-        'USER': 'meru',
-        'PASSWORD': '1710',
+        'USER': 'shop',
+        'PASSWORD': '6789',
 
 
 
