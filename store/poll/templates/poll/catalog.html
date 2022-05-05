@@ -6,20 +6,23 @@
 {% for t in posts %}
 <div class="product-card">
 
-  <p class="first">{{t.author}}</p>
+  {% comment %} <p class="first">{{t.author}}</p> {% endcomment %}
   <p class="first">Категория: {{t.cat}}</p>
-  <p class="last">Дата: {{t.p_time_update|date:"d-m-Y H:i:s"}}</p>
+  {% comment %} <p class="last">Дата: {{t.p_time_update|date:"d-m-Y H:i:s"}}</p> {% endcomment %}
     <h1>{{t.p_title}}</h1>
     {% if t.p_photo %}
 				<p><img class="img-article-left thumb" src="{{t.p_photo.url}}" alt="" width="200px" height="200px"></p>
 	{% endif %}
     <div class="product-info">
-      <div class="product-price">{{t.p_description}}</div>
+      {% comment %} <div class="product-price">{{t.p_description}}</div> {% endcomment %}
       <a href="{{ t.get_absolute_url }}" id="btn" class="btn btn-outline-dark">More</a>
     </div>
   </div>
   {% endfor %}
   </div>
+
+
+  
 
 
 

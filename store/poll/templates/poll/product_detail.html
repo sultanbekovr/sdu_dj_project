@@ -2,12 +2,68 @@
 {% load static %}
 
 {% block content %}
+        {% comment %} <h1 class="">{{object.p_description}}</h1> {% endcomment %}
+          <section style="background-color: #eee;">
+            <div class="container py-3">
+              <div class="row justify-content-center">
+         
+                  <div class="card" style="border-radius: 15px;">
+                    <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light"
+                      data-mdb-ripple-color="light">
+                      <img src={{ object.p_photo.url }} 
+                        style="border-top-left-radius: 15px; border-top-right-radius: 15px;" class="img-fluid"
+                        alt="Laptop" />
+                      <a href="#!">
+                        <div class="mask"></div>
+                      </a>
+                    </div>
+                    <div class="card-body pb-0">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                
+                          <p class="small text-muted">{{ object.author}}</p>
+                        </div>
+                        <div>
+                          <div class="d-flex flex-row justify-content-end mt-1 mb-4 text-danger">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                          </div>
+                        
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mt-1">
+                          <h4 class="card-title">{{object.p_title}}</h4>
 
-    <div class="container d-flex flex-row  mt-3 ">
-        
-        <h1 class="article-title"><p>{{object.p_title}}</p></h1>
-        <p><img src={{ object.p_photo.url }} alt="" width="270px" height="260px"></p>
-        <h1 class="">{{object.p_description}}</h1>
+                          {% comment %} PRICE {% endcomment %}
+                          <h6 class="text-primary mb-1 pb-3">price is here</h6>
+                        </div>
+            
+                        <div class="text-center">
+                     
+                            <h4 class="card-title">{{object.p_description}}</h4>
+            
+            
+                        <div class="d-flex flex-row">
+                          <button type="button" class="btn btn-primary flex-fill me-1" data-mdb-ripple-color="dark">
+                            Learn more
+                          </button>
+                          <button type="button" class="btn btn-danger flex-fill ms-1">Buy now</button>
+                        </div>
+                      </div>
+                    <hr class="my-0" />
+                
+                    <hr class="my-0" />
+                 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
   </div>
         {% if object.author == user %}
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'product-update' object.id %}">Update</a>

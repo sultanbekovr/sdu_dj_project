@@ -17,7 +17,8 @@ urlpatterns = [
     path('post/<int:pk>/delete/', ProductDeleteView.as_view(), name = 'product-delete'),
     
     # path('post/<slug:post_slug>/', show_post, name='post'),
-    path('category/<int:cat_id>/', show_category, name='category'),
+    path('category/<int:cat_id>/',  TechCategory.as_view(), name='category'),
+    
     path('share/<int:product_id>', post_share, name='post_share'),
 
     path('search/', post_search, name='post_search'),
