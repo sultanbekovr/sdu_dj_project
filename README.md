@@ -1,1 +1,26 @@
 # Cheapurch
+![image](https://user-images.githubusercontent.com/91417345/167097446-53aa033d-a6f9-4d4f-a970-15c0bdc55c33.png)
+
+Website written of django+python for all users
+
+# Description of project
+This website helps all people to sell and purchase our products at the same time for a favorable price!
+
+# We made this site with love!
+
+# Mentor!
+
+Bissenbay Dauletbayev - b.dauletbayev@sdu.edu.kz
+
+# Team Members
+Dastan Ushkirbek - 200103120@stu.sdu.edu.kz
+
+Meruyert Zhunussova - 200103534@stu.sdu.edu.kz
+
+Diana Bekmagambetova- 200103329@stu.sdu.edu.kz
+
+# Goal
+To help people exchange goods profitably and also watch apple products only.
+
+# What problems does our app solve?
+Every day people throw away their working or non - working products . People sometimes look only for apple products because there are a lot of ads in olx and also other products such as Samsung that the user is not interested in !

@@ -45,7 +45,11 @@ INSTALLED_APPS = [
     'captcha',
     "django.contrib.staticfiles",
     "debug_toolbar",
+<<<<<<< HEAD
     'basket',
+=======
+    'cart',
+>>>>>>> 66587c5df84de4c0111af64c7f11a9d838616436
 ]
 
 
@@ -73,7 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 'poll.context_processors.categories',
+                'cart.context_processor.cart_total_amount'
             ],
         },
     },
@@ -90,8 +94,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'shop',
 
-        'USER': 'meru',
-        'PASSWORD': '1710',
+        'USER': 'shop',
+        'PASSWORD': '6789',
 
 
 
@@ -182,3 +186,10 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'store_cache'),
     }
 }
+<<<<<<< HEAD
+=======
+
+
+
+CART_SESSION_ID = 'cart'
+>>>>>>> 66587c5df84de4c0111af64c7f11a9d838616436

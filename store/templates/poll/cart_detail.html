@@ -1,0 +1,19 @@
+{% extends 'poll/base.html' %}
+
+{% load static %}
+
+{% load cart_tag %}
+
+{% if object.author == user %}
+{{request.session.cart|length}}
+
+
+
+
+
+{% for key,value in request.session.cart.items %}
+{{value.p_title}} {{value.price}} {{value.quantity}} {{value.p_photo}} Total {{ value.price|multiply:value.quantity }}
+
+{% endfor %}
+
+{% endif %}

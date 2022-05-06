@@ -15,6 +15,15 @@ from django.core.mail import send_mail
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
 
+
+
+
+from django.shortcuts import render, redirect
+from poll.models import Product
+from django.contrib.auth.decorators import login_required
+from cart.cart import Cart
+
+
 # cache
 from django.views.decorators.cache import cache_page
 
@@ -321,3 +330,77 @@ def post_search(request):
                    'results': results})
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required(login_url="/users/login")
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("catalog")
+
+
+@login_required(login_url="/users/login")
+def item_clear(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.remove(product)
+    return redirect("catalog")
+
+
+@login_required(login_url="/users/login")
+def item_increment(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("catalog")
+
+
+@login_required(login_url="/users/login")
+def item_decrement(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.decrement(product=product)
+    return redirect("catalog")
+
+
+@login_required(login_url="/users/login")
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("catalog")
+
+
+@login_required(login_url="/users/login")
+def cart_detail(request):
+    return render(request, 'poll/catalog.html')

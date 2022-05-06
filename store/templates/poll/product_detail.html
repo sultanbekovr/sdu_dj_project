@@ -1,4 +1,5 @@
 {% extends 'poll/base.html' %}
+{% load cart_tag %}
 {% load static %}
 
 {% block content %}
@@ -18,6 +19,8 @@
                       </div>
           
                   
+
+                      
                    
                       {% if object.author == user %}
                       <div class="d-flex flex-row">
@@ -26,27 +29,108 @@
                     </div>
                     {% else %}
                     <div class="designed-by">
+<<<<<<< HEAD
                       {% comment %} <h5>Author:{{object.author}}</h5> {% endcomment %}
+=======
+                      <h5>Author:{{object.author}}</h5>
+
+
+
+
+
+
+                    
+
+
+
+
+                     
+
+
+
+
+
+
+
+>>>>>>> 66587c5df84de4c0111af64c7f11a9d838616436
                      
                     </div>
-                        <a href="cart.html" class="btn btn-primary flex-fill me-1" data-mdb-ripple-color="dark">Add to Cart</a>
+                        <button type="button" class="btn btn-primary flex-fill me-1" data-mdb-ripple-color="dark"><a   href="{% url 'cart_add' product.id %}">Add to Cart</a> </button>
                         <a href="" class="btn" style="background-color: #EAEAEF; color: #ADADAD;">Add to Wishlist</a>
+<<<<<<< HEAD
                  
+=======
+                
+>>>>>>> 66587c5df84de4c0111af64c7f11a9d838616436
                         
-                    {% endif %}
+               
                   </div>
-                </div>
-              </div>
-            </div>
+              
           
   
           </section>
+
+         
+          <main class="pt-5">
+            <div class="container">
+              <h1 class="h5">Shopping basket {{request.session.cart|length}}</h1>
+               {% for key,value in request.session.cart.items %}
+              <div data-index="{{product.id}}" class="row mb-4 border product-item">
+                <div class="col-md-3 col-lg-2 order-md-first bg-light">
+                  
+                </div>
+                
+
+                <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
+                  <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset">
+                    <h1 class="h5 pt-2">{{value.p_title}}</h1>
+                  </a>
+                  <div class="border">
+                    <div class="col border-bottom">
+                      <div class="row p-3">
+                        <div class="col-6">Price:</div>
+                        <div class="col-6 text-end"><span class="h6 fw-bold">{{value.price}} T</span></div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="row p-3">
+                        <div class="col-12">
+                          
+                          <button type="button" id="update-button" data-index="{{product.id}}"
+                            class="btn btn-outline-secondary btn-sm update-button">
+                            Buy Now
+                          </button>
+                          <button type="button" id="delete-button"
+                            class="btn btn-outline-secondary btn-sm delete-button"> <a   href="{% url 'item_clear' product.id %}">
+                            Delete</a>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              
+              <div class="col-12 text-end">
+                <div class="h6 fw-bold"><div id="subtotal" class="d-inline-flex"></div></div>
+              </div>
+            </div>
+          </main>
+         
+
+  
+          
+          
+         
+          
+         
+
+         {% endif %}
+          
           
 
-          
-          
-
-  </div>
+ 
        
   
     {% comment %} <h2>
