@@ -1,0 +1,8 @@
+{% for c in cats %}
+{% if c.pk == cat_selected %}
+<p class="list-group-item list-group-item-light">{{c.ct_category_name}}</p>
+{% else %}
+<p class="list-group-item list-group-item-light"> <a href="{{c.get_absolute_url}}"> {{c.ct_category_name}}</a></p>
+{%endif%}
+{% endfor %}
+
