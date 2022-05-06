@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "debug_toolbar",
     'basket',
-    
 ]
 
 
@@ -177,11 +176,9 @@ EMAIL_USE_TLS = True
 
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
-INTERNAL_IPS = [
-    
-    "127.0.0.1",
-   
-]
+# INTERNAL_IPS = [
+#     "127.0.0.1",
+# ]
 
 
 CACHES = {
