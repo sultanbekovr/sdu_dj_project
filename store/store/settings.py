@@ -45,8 +45,7 @@ INSTALLED_APPS = [
     'captcha',
     "django.contrib.staticfiles",
     "debug_toolbar",
-    'basket',
-    
+    'cart',
 ]
 
 
@@ -75,8 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 'poll.context_processors.categories',
-                'basket.context_processors.basket',
+                'cart.context_processor.cart_total_amount'
             ],
         },
     },
@@ -187,3 +185,7 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'store_cache'),
     }
 }
+
+
+
+CART_SESSION_ID = 'cart'
