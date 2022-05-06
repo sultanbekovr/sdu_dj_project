@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-2@jv-$(s(tm(*^sv1=-^c(dwq*@gvonizol=r5s-umd2$szb9l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['chearapp.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "debug_toolbar",
     'basket',
-    
 ]
 
 
@@ -58,7 +57,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -174,9 +172,7 @@ EMAIL_USE_TLS = True
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 INTERNAL_IPS = [
-    
     "127.0.0.1",
-   
 ]
 
 
