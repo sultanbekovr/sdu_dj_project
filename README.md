@@ -13,7 +13,7 @@ This website helps all people to sell and purchase our products at the same time
 Bissenbay Dauletbayev - b.dauletbayev@sdu.edu.kz
 
 # Team Members
-Dastan Ushkirbek - 200103120@stu.sdu.edu.kz
+the link for presentation: https://www.canva.com/design/DAFBEfSbxR0/xB7qQ_7CJOQNwroXJcH0WA/edit?utm_content=DAFBEfSbxR0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 Meruyert Zhunussova - 200103534@stu.sdu.edu.kz
 
