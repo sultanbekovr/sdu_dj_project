@@ -1,18 +1,23 @@
 {% extends 'poll/base.html' %}
 {% block content %}
+{% load static %}
 <!-- <h1>{{title}}</h1> -->
-
-
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&family=Koulen&family=Raleway:wght@200;400&display=swap" rel="stylesheet">
+<link href="{% static "poll/css/catalog.css" %}" rel="stylesheet">
+<body style="background-color:#f4f4f4;">
 
 <section style="display:flex; justify-content: center">
   {% for t in posts %}
-      <div style="padding: 20px;  border: 1px solid black; margin: 20px; box-shadow: 10px 3px 3px lightgrey; margin-left: 80px" >
+      <div class="cardo" style="border: 1px solid lightgrey" >
         <img src="{{t.p_photo.url}}" alt="" width="250px" height="250px"style="padding: 20px; "  >
-        <p class="pt-3" style="font-size: 25px; font-family: 'Inconsolata', monospace;"> {{t.p_title}}</p>
-        <p style="font-family: 'Inconsolata', monospace;">{{t.price}} t</p>
+        <div class="down">
+        <p class="pt" style="font-size: 25px; font-family: 'Inconsolata', monospace;"> {{t.p_title}}</p>
+        <p class="tg">  {{t.p_price}} T</p>
         <a href="{{ t.get_absolute_url }}" id="btn" class="btn btn-outline-dark">More</a>
       </div>
+    </div>
 {% endfor %}
 </section>  
 
@@ -28,10 +33,8 @@
 
 
 
-  
-
-
 
 
 
 {% endblock %}
+</body>

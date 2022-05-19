@@ -1,170 +1,102 @@
-{% extends 'poll/base.html' %}
-{% load cart_tag %}
-{% load static %}
 
-{% block content %}
-        {% comment %} <h1 class="">{{object.p_description}}</h1> {% endcomment %}
-
-       
-        <section style="background-color: #eee; margin-left: 400px; margin-top: 20px" >
-          
-                  <div class="card text-black">
-                    <img src={{object.p_photo.url}}
-                      class="card-img-top" alt="iPhone" />
-                    <div class="card-body">
-                      <div class="text-center mt-1">
-                        <h4 class="card-title" style="font-family: 'Inconsolata', monospace;">{{object.p_title}}</h4>
-                        <h6 class="text-primary mb-1 pb-3" style="font-family: 'Inconsolata', monospace;">{{object.price}}</h6>
-                        <h6 class="text-primary mb-1 pb-3" style="font-family: 'Inconsolata', monospace;">{{object.p_description}}</h6>
-                      </div>
           
                   
 
                       
                    
-                      {% if object.author == user %}
-                      <div class="d-flex flex-row">
-                        <button type="button" class="btn btn-primary flex-fill me-1" data-mdb-ripple-color="dark">   <a  href="{% url 'product-update' object.id %}">Update</a></button>
-                        <button type="button" class="btn btn-danger flex-fill ms-1">  <a   href="{% url 'product-delete' object.id %}">Delete</a></button>
-                    </div>
-                    {% else %}
-                    <div class="designed-by">
-<<<<<<< HEAD
-                      {% comment %} <h5>Author:{{object.author}}</h5> {% endcomment %}
-=======
-                      <h5>Author:{{object.author}}</h5>
-
-
-
-
-
-
-                    
-
-
-
-
-                     
-
-
-
-
-
-
-
->>>>>>> 66587c5df84de4c0111af64c7f11a9d838616436
-                     
-                    </div>
-                        <button type="button" class="btn btn-primary flex-fill me-1" data-mdb-ripple-color="dark"><a   href="{% url 'cart_add' product.id %}">Add to Cart</a> </button>
-                        <a href="" class="btn" style="background-color: #EAEAEF; color: #ADADAD;">Add to Wishlist</a>
-<<<<<<< HEAD
-                 
-=======
-                
->>>>>>> 66587c5df84de4c0111af64c7f11a9d838616436
-                        
                
-                  </div>
-              
+ 
           
-  
-          </section>
-
          
-          <main class="pt-5">
-            <div class="container">
-              <h1 class="h5">Shopping basket {{request.session.cart|length}}</h1>
-               {% for key,value in request.session.cart.items %}
-              <div data-index="{{product.id}}" class="row mb-4 border product-item">
-                <div class="col-md-3 col-lg-2 order-md-first bg-light">
-                  
-                </div>
-                
 
-                <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
-                  <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset">
-                    <h1 class="h5 pt-2">{{value.p_title}}</h1>
-                  </a>
-                  <div class="border">
-                    <div class="col border-bottom">
-                      <div class="row p-3">
-                        <div class="col-6">Price:</div>
-                        <div class="col-6 text-end"><span class="h6 fw-bold">{{value.price}} T</span></div>
-                      </div>
+  
+          
+          
+         
+          
+         
+
+     
+          
+          
+
+         {% extends 'poll/base.html' %}
+
+         {% load static %}
+         
+         {% block content %}
+         
+         <style>
+           .flex-container {
+             padding: 0;
+             margin: 0;
+             list-style: none;
+             display: flex;
+             background-color: red;
+             width:100%
+           }
+           
+           .flex-start { 
+             justify-content: flex-start; 
+           }
+         </style> 
+         <body style="background-color: #f4f4f4;">
+         
+         <section style="background-color: #eee; margin-top: 20px; margin-left: 200px;">
+
+            <div class="row">
+           
+                <div class="card text-black">
+                  <img src={{product.p_photo.url}}
+                    class="card-img-top" alt="iPhone" width="70px" height="230px"/>
+                  <div class="card-body">
+                    <div class="text-center mt-1">
+                      <h4 class="card-title">{{product.p_title}}</h4>
+                      <h6 class="text-primary mb-1 pb-3">{{product.p_price}}  ₸ <span style="color:black !important;"> || </span>  {{r}}  ₽  <span style="color:black !important;"> || </span>  {{d}} $</h6>
                     </div>
-                    <div class="col">
-                      <div class="row p-3">
-                        <div class="col-12">
-                          
-                          <button type="button" id="update-button" data-index="{{product.id}}"
-                            class="btn btn-outline-secondary btn-sm update-button">
-                            Buy Now
-                          </button>
-                          <button type="button" id="delete-button"
-                            class="btn btn-outline-secondary btn-sm delete-button"> <a   href="{% url 'item_clear' product.id %}">
-                            Delete</a>
-                          </button>
-                        </div>
+        
+                    <div class="text-center">
+                      <div class="p-3 mx-n3 mb-4" style="background-color: #eff1f2;">
+                        <h5 class="mb-0">Сharacteristic</h5>
+                      </div> 
+                      <div class="d-flex flex-column mb-4"  style="text-align:center;">
+                        <span class="h1 mb-0">{{product.p_year}}</span>
+                        <ul  style="text-align:left;">
+                        <li>Display: {{product.p_display}}</li>
+                        <li>Charge: {{product.p_charge}}</li>
+                        <li>Color: {{product.p_color}}</li>
+                        <li>Quantity: {{product.count}}</li>
+                      </ul>
                       </div>
-                    </div>
+        
+                   
+        
+        
+        
+                    <button type="button" class="btn btn-primary flex-fill me-1" data-mdb-ripple-color="dark" style="margin-left: 40px"><a   href="{% url 'add-to-cart' product.slug %}" style=" color:black; text-decoration: none; ">Add to Cart</a> </button>
+                    <button type="button" class="btn btn-primary flex-fill me-1" data-mdb-ripple-color="dark"><a href="{% url "user_wishlist" product.id  %}"  style="color:black; text-decoration: none " >Add to Wish</a></button>
+            
                   </div>
                 </div>
               </div>
-              {% endfor %}
-              
-              <div class="col-12 text-end">
-                <div class="h6 fw-bold"><div id="subtotal" class="d-inline-flex"></div></div>
+             
+              <!-- {% if object.author == user %}
+              <div class="d-flex flex-row">
+                <button type="button" class="btn btn-primary flex-fill me-1" data-mdb-ripple-color="dark">   <a  href="{% url 'product-update' object.id %}">Update</a></button>
+                <button type="button" class="btn btn-danger flex-fill ms-1">  <a   href="{% url 'product-delete' object.id %}">Delete</a></button>
               </div>
             </div>
-          </main>
-         
+            {% else %}
+            <div class="designed-by">
+            </div>
+               {% endif %}
+                 -->
+               
+        </section>
 
-  
-          
-          
+            
+                   
+                  </body>  
+                  {% endblock content %}             
          
-          
-         
-
-         {% endif %}
-          
-          
-
- 
        
-  
-    {% comment %} <h2>
-        <p>
-            <a href="{% url 'post_share' product.id %}">
-            Share this post
-            </a>
-        </p>
-    </h2>
-    <h1>Comments</h1>
-    {% for comment in comments %}
-        <div class="comment">
-            <p class="info">
-                Comment {{ forloop.counter }} by {{ comment.name }}
-                {{ comment.created }}
-            </p>
-            {{ comment.body|linebreaks }}
-        </div>
-    {% empty %}
-        <p>There are no comments yet.</p>
-    {% endfor %}
-
-    {% if new_comment %}
-        <h2>Your comment has been added.</h2>
-    {% else %}
-        <h2>Add a new comment</h2>
-        <form method="post">
-            {{ comment_form.as_p }}
-            {% csrf_token %}
-            <p><input type="submit" value="Add comment"></p>
-        </form>
-    {% endif %}
-
-
-{% endcomment %}
-
-{% endblock %} 

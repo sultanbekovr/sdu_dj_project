@@ -1,29 +1,34 @@
+from urllib import request
+from django.contrib import messages
 from base64 import urlsafe_b64decode
 from dataclasses import field
 from itertools import product
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
+from django.utils import timezone
 from multiprocessing import context
 from re import template
 from turtle import title
-from django.http import Http404, HttpResponse, HttpResponseNotFound
+
+from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
+
 from .models import *
 from .forms import CommentForm, EmailPostForm, SearchForm
 from django.core.mail import send_mail
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
 
-
+from django.core.exceptions import ObjectDoesNotExist
 
 
 from django.shortcuts import render, redirect
 from poll.models import Product
 from django.contrib.auth.decorators import login_required
-from cart.cart import Cart
+from users.models import *
 
-
+from django.db import connection
+import cx_Oracle
 # cache
 from django.views.decorators.cache import cache_page
 
@@ -63,18 +68,26 @@ class AboutPage(ListView):
 
 # view for show_post  
 class ProductDetailView(DetailView):
-    model = Product    
-   
+    model = Product
     
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        product = self.get_object()
         context['menu'] = menu
+        cursor = connection.cursor()
+        d = cursor.callfunc("in_dollar", cx_Oracle.NUMBER,[product.p_price])
+        r = cursor.callfunc("in_ruble", cx_Oracle.NUMBER,[product.p_price])
+        r = int(r)
+        d = int(d)
+        context['d'] = d
+        context['r'] = r
         return context
     
 # create new product 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product    
-    fields = ['p_title','price', 'p_description', 'cat', 'p_photo']
+    fields = ['p_title','p_price', 'p_description', 'cat', 'p_photo']
     
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -143,19 +156,7 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 
-# @cache_page(60)
-# def catalog(request):
-#     posts = Product.objects.all()
-    
-    
-#     context = {
-#         'posts': posts,
-#         'menu': menu,
-#         'title': 'Catalog',
-#         'cat_selected': 0,
-#     }
-    
-#     return render(request,'poll/catalog.html', context=context)
+
 
 
 def login(request):
@@ -264,6 +265,12 @@ class CatalogView(ListView):
         context['menu'] = menu
         context['title'] = 'Catalog'
         context['cat_selected'] = 0
+        cursor = connection.cursor()
+        cursor.callproc("discount")
+        cursor.close()
+        
+        
+    
       
         return context
 
@@ -274,10 +281,46 @@ class CatalogView(ListView):
     
     
     
+def shsup(request):
+    sprod = Shortsupply.objects.all()
+    cursor = connection.cursor() 
+    n = cursor.callfunc('ProductsInShortSupply', cx_Oracle.NUMBER)
+    cursor.close()
+    n = int(n)
+    context = {
+        
+        'menu': menu,
+        'title': 'Catalog',
+        'sprod': sprod,
+        'n': n,
+    }
+    
+    return render(request,'poll/shsup.html', context=context) 
 
 
 
+# @cache_page(60)
+# def catalog(request):
+#     posts = Product.objects.all()
+    
+    
+#     context = {
+#         'posts': posts,
+#         'menu': menu,
+#         'title': 'Catalog',
+#         'cat_selected': 0,
+#     }
+    
+#     return render(request,'poll/catalog.html', context=context)    
 
+
+
+def acceptorder(request):
+    cursor = connection.cursor()
+    cursor.callproc("ARCHIVE_WRITER")
+    cursor.close()
+    messages.info(request, 'Your order accepted!!!')
+    return redirect('cart-summary')
 
 # def categories(request, catid):
 #     return HttpResponse(f"Categories<p>{catid}</p>")
@@ -335,6 +378,22 @@ def post_search(request):
 
 
 
+@login_required
+def wishlist(request):
+    products = Product.objects.filter(users_wishlist=request.user)
+    return render(request, "poll/dash/user_wish_list.html", {"wishlist": products})
+
+
+@login_required
+def add_to_wishlist(request, id):
+    product = get_object_or_404(Product, id=id)
+    if product.users_wishlist.filter(id=request.user.id).exists():
+        product.users_wishlist.remove(request.user)
+        messages.success(request, product.p_title + " has been removed from your WishList")
+    else:
+        product.users_wishlist.add(request.user)
+        messages.success(request, "Added " + product.p_title + " to your WishList")
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 
@@ -362,45 +421,130 @@ def post_search(request):
 
 
 
-@login_required(login_url="/users/login")
-def cart_add(request, id):
-    cart = Cart(request)
-    product = Product.objects.get(id=id)
-    cart.add(product=product)
-    return redirect("catalog")
 
 
-@login_required(login_url="/users/login")
-def item_clear(request, id):
-    cart = Cart(request)
-    product = Product.objects.get(id=id)
-    cart.remove(product)
-    return redirect("catalog")
 
 
-@login_required(login_url="/users/login")
-def item_increment(request, id):
-    cart = Cart(request)
-    product = Product.objects.get(id=id)
-    cart.add(product=product)
-    return redirect("catalog")
+
+@login_required
+def add_to_cart(request, slug):
+    item = get_object_or_404(Product, slug=slug)
+   
+    cart_item, created = ProductShoppingCart.objects.get_or_create(
+        item=item,
+        user=request.user,
+        ordered=False,
+    )
+    cart_qs = ShoppingCart.objects.filter(user=request.user, ordered=False)
+    if cart_qs.exists():
+        cart = cart_qs[0]
+        # check if the cart item is in the cart
+        if cart.items.filter(item__slug=item.slug).exists():
+            cart_item.quantity += 1
+            cart_item.save()
+            messages.info(request, f"This item quantity was updated.")
+            return redirect("cart-summary")
+        else:
+            cart.items.add(cart_item)
+            messages.info(request, f"This item was added to your cart.")
+            return redirect("cart-summary")
+    else:
+        s_item = get_object_or_404(Product, slug=slug)
+        ordered_date = timezone.now()
+        cart = ShoppingCart.objects.create(
+            s_item=s_item,
+            user=request.user, ordered_date=ordered_date)
+        cart.items.add(cart_item)
+        messages.info(request, f"This item was added to your cart.")
+        return redirect("cart-summary")
 
 
-@login_required(login_url="/users/login")
-def item_decrement(request, id):
-    cart = Cart(request)
-    product = Product.objects.get(id=id)
-    cart.decrement(product=product)
-    return redirect("catalog")
 
 
-@login_required(login_url="/users/login")
-def cart_clear(request):
-    cart = Cart(request)
-    cart.clear()
-    return redirect("catalog")
+@login_required
+def remove_from_cart(request, slug):
+    item = get_object_or_404(Product, slug=slug)
+    s_item = get_object_or_404(Product, slug=slug)
+    cart_qs = ShoppingCart.objects.filter(
+        s_item=s_item,
+        user=request.user,
+        ordered=False
+    )
+    if cart_qs.exists():
+        cart = cart_qs[0]
+        # check if the cart item is in the cart
+        if cart.items.filter(item__slug=item.slug).exists():
+            cart_item = ProductShoppingCart.objects.filter(
+                item=item,
+                user=request.user,
+                ordered=False
+            )[0]
+            cart.items.remove(cart_item)
+            cart_item.delete()
+            cart_qs.delete()
+            messages.info(request, f"This item was removed from your cart.")
+            return redirect("cart-summary")
+        else:
+            messages.info(request, f"This item was not in your cart")
+            return redirect("product-detail", slug=slug)
+    else:
+        messages.info(request, f"You do not have an active cart")
+        return redirect("product-detail", slug=slug)
 
 
-@login_required(login_url="/users/login")
-def cart_detail(request):
-    return render(request, 'poll/catalog.html')
+@login_required
+def remove_single_item_from_cart(request, slug):
+    item = get_object_or_404(Product, slug=slug)
+    s_item = get_object_or_404(Product, slug=slug)
+    cart_qs = ShoppingCart.objects.filter(
+        s_item = s_item,
+        user=request.user,
+        ordered=False
+    )
+    if cart_qs.exists():
+        cart = cart_qs[0]
+        # check if the cart item is in the cart
+        if cart.items.filter(item__slug=item.slug).exists():
+            cart_item = ProductShoppingCart.objects.filter(
+                item=item,
+                user=request.user,
+                ordered=False
+            )[0]
+            if cart_item.quantity > 1:
+                cart_item.quantity -= 1
+                cart_item.save()
+            else:
+                
+                cart.items.remove(cart_item)
+                cart_item.delete()
+                cart_qs.delete()
+                
+            messages.info(request, f"This item quantity was updated.")
+            return redirect("cart-summary")
+        else:
+            messages.info(request, f"This item was not in your cart")
+            return redirect("product-detail", slug=slug)
+    else:
+        messages.info(request, f"You do not have an active cart")
+        return redirect("product-detail", slug=slug)
+
+
+
+
+
+
+
+class ShoppingCartSummaryView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            cart = ShoppingCart.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'object': cart
+            }
+            return render(self.request, 'poll/cart.html', context)
+        except ObjectDoesNotExist:
+            messages.warning(self.request, "You do not have an active cart")
+            return render(self.request, 'poll/cart.html')
+        
+        
+        

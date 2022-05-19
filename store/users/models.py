@@ -26,6 +26,12 @@ class Profile(models.Model):
     #         img.save(self.img.path)
     
         
+class Archive1(models.Model):
+    
+    quantity = models.IntegerField(blank=True, null=True)
+    item_id = models.BigIntegerField(blank=True, null=True)
+
+   
 
 
 

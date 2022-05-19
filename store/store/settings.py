@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 #  jdbjkv
+import cx_Oracle
 import os
 from pathlib import Path
 
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-2@jv-$(s(tm(*^sv1=-^c(dwq*@gvonizol=r5s-umd2$szb9l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['chearapp.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -45,11 +46,7 @@ INSTALLED_APPS = [
     'captcha',
     "django.contrib.staticfiles",
     "debug_toolbar",
-<<<<<<< HEAD
-    'basket',
-=======
-    'cart',
->>>>>>> 66587c5df84de4c0111af64c7f11a9d838616436
+    
 ]
 
 
@@ -61,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -77,7 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'cart.context_processor.cart_total_amount'
+                
             ],
         },
     },
@@ -91,17 +89,14 @@ WSGI_APPLICATION = 'store.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'shop',
-
-        'USER': 'shop',
-        'PASSWORD': '6789',
-
-
-
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'localhost/orcl',
+        'USER': 'missdi',
+        'PASSWORD': 'pmissdi',
+        'HOST': '',
+        'PORT': '',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -176,7 +171,9 @@ EMAIL_USE_TLS = True
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 INTERNAL_IPS = [
+    
     "127.0.0.1",
+   
 ]
 
 
@@ -186,10 +183,9 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'store_cache'),
     }
 }
-<<<<<<< HEAD
-=======
 
 
 
 CART_SESSION_ID = 'cart'
->>>>>>> 66587c5df84de4c0111af64c7f11a9d838616436
+
+

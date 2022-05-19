@@ -4,7 +4,7 @@ from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
  
- 
+from users.models import *
  
  
 menu = [{'title': "Home", 'url_name': 'home'},
@@ -52,5 +52,5 @@ def profile(request):
 
 
 
-
+        
 # Create your views here.

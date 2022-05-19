@@ -11,7 +11,7 @@ urlpatterns = [
     path('', HomepageView.as_view(), name='home'),
     path('about/', AboutPage.as_view(), name='about'),
     path('catalog/', CatalogView.as_view(), name='catalog'),
-    path('post/<int:pk>/', ProductDetailView.as_view(), name = 'product-detail'),
+    path('post/<slug:slug>/', ProductDetailView.as_view(), name = 'product-detail'),
     path('catalog/post/new/', ProductCreateView.as_view(), name = 'product-create'),
     path('post/<int:pk>/update/', ProductUpdateView.as_view(), name = 'product-update'),
     path('post/<int:pk>/delete/', ProductDeleteView.as_view(), name = 'product-delete'),
@@ -25,15 +25,20 @@ urlpatterns = [
     
     
     
+    path('add-to-cart/<slug:slug>/',views.add_to_cart, name='add-to-cart'),
+     path('remove-from-cart/<slug:slug>/', remove_from_cart, name='remove-from-cart'),
+    path('remove-item-from-cart/<slug>/', remove_single_item_from_cart,
+         name='remove-single-item-from-cart'),
+    path('cart-summary/', ShoppingCartSummaryView.as_view(), name='cart-summary'),
     
-    
-    path('cart/add/<int:id>/', views.cart_add, name='cart_add'),
-    path('cart/item_clear/<int:id>/', views.item_clear, name='item_clear'),
-    path('cart/item_increment/<int:id>/',
-         views.item_increment, name='item_increment'),
-    path('cart/item_decrement/<int:id>/',
-         views.item_decrement, name='item_decrement'),
-    path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
-    path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
 
+    
+    # Wish List
+    path("wishlist", views.wishlist, name="wishlist"),
+    path("wishlist/add_to_wishlist/<int:id>", views.add_to_wishlist, name="user_wishlist"),
+
+
+    path('shsup/', shsup, name='shsup'),
+    path('acceptorder/', views.acceptorder, name='acceptorder'),
+    
 ]
